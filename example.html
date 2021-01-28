@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+		/>
+
+		<title>Storage Example</title>
+	</head>
+	<body>
+		<section class="section">
+			<div class="container">
+				<h1 class="title">Storage Example</h1>
+				<p class="subtitle">Exemplo de uso do Firebase Storage</p>
+
+				<label for="inputFileId">Selecione um arquivo:</label>
+				<br />
+				<input class="form-control-file" id="inputFileId" type="file" />
+				<br />
+				<progress value="0" max="100" id="progress">0%</progress>
+				<br />
+
+				<button class="button is-primary" id="btn" onclick="submit()">
+					Enviar
+				</button>
+			</div>
+		</section>
+
+		<script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-app.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-storage.js"></script>
+
+		<script src="./index.js"></script>
+		<script>
+			function submit() {
+				document.getElementById('btn').disabled = true;
+				sendFile(
+					function (snapshot) {
+						document.getElementById('progress').value =
+							(snapshot.bytesTransferred / snapshot.totalBytes) *
+							100;
+					},
+					function (err) {
+						document.getElementById('btn').disabled = false;
+					},
+					function (downloadURL) {
+						document.getElementById('btn').disabled = false;
+					}
+				);
+			}
+		</script>
+	</body>
+</html>
